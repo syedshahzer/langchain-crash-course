@@ -26,7 +26,7 @@ count_words = RunnableLambda(lambda x: f"Word count: {len(x.split())}\n{x}")
 chain = prompt_template | model | StrOutputParser() | uppercase_output | count_words
 
 # Run the chain
-result = chain.invoke({"topic": "lawyers", "joke_count": 3})
+result = chain.invoke({"topic": "Messi", "joke_count": 3})
 
 # Output
 print(result)
