@@ -8,7 +8,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 load_dotenv()
 
 # Create a ChatGoogleGenerativeAI model
-model = ChatGoogleGenerativeAI(model="gemini-2.0-flash")
+model = ChatGoogleGenerativeAI(model="gemini-2.0-flash", temperature=1)
 
 # Define prompt templates for different feedback types
 positive_feedback_template = ChatPromptTemplate.from_messages(
@@ -52,22 +52,22 @@ classification_template = ChatPromptTemplate.from_messages(
     [
         ("system", "You are a helpful assistant."),
         ("human",
-         "Classify the sentiment of this feedback as positive, negative, neutral, or escalate: {feedback}."),
+         "Classify the sentiment of this feedback as positive, negative, neutral, or escalate: {feedback}. Mention the sentiment in the response.")
     ]
 )
 
 # Define the runnable branches for handling feedback
 branches = RunnableBranch(
     (
-        lambda x: "positive" in x,
+        lambda x: "positive" in x.lower(),
         positive_feedback_template | model | StrOutputParser()  # Positive feedback chain
     ),
     (
-        lambda x: "negative" in x,
+        lambda x: "negative" in x.lower(),
         negative_feedback_template | model | StrOutputParser()  # Negative feedback chain
     ),
     (
-        lambda x: "neutral" in x,
+        lambda x: "neutral" in x.lower(),
         neutral_feedback_template | model | StrOutputParser()  # Neutral feedback chain
     ),
     escalate_feedback_template | model | StrOutputParser()
@@ -85,8 +85,9 @@ chain = classification_chain | branches
 # Neutral review - "The product is okay. It works as expected but nothing exceptional."
 # Default - "I'm not sure about the product yet. Can you tell me more about its features and benefits?"
 
-review = "The product is terrible. It broke after just one use and the quality is very poor."
+review = "The product is excellent. I really enjoyed using it and found it very helpful."
 result = chain.invoke({"feedback": review})
+# result = classification_chain.invoke({"feedback": review})
 
 # Output the result
 print(result)
