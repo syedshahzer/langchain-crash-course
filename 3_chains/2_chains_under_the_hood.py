@@ -26,7 +26,7 @@ parse_output = RunnableLambda(lambda x: x.content)
 chain = RunnableSequence(first=format_prompt, middle=[invoke_model], last=parse_output)
 
 # Run the chain
-response = chain.invoke({"topic": "lawyers", "joke_count": 3})
+response = chain.invoke({"topic": "Modi", "joke_count": 3})
 
 # Output
 print(response)
