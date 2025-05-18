@@ -9,7 +9,7 @@ from langchain.text_splitter import (
 )
 from langchain_community.document_loaders import TextLoader
 from langchain_community.vectorstores import Chroma
-from langchain_openai import OpenAIEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings
 
 # Define the directory containing the text file
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -27,8 +27,8 @@ loader = TextLoader(file_path)
 documents = loader.load()
 
 # Define the embedding model
-embeddings = OpenAIEmbeddings(
-    model="text-embedding-3-small"
+embeddings = HuggingFaceEmbeddings(
+    model_name="sentence-transformers/all-mpnet-base-v2"
 )  # Update to a valid embedding model if needed
 
 
@@ -106,7 +106,7 @@ def query_vector_store(store_name, query):
         )
         retriever = db.as_retriever(
             search_type="similarity_score_threshold",
-            search_kwargs={"k": 1, "score_threshold": 0.1},
+            search_kwargs={"k": 1, "score_threshold": 0.4},
         )
         relevant_docs = retriever.invoke(query)
         # Display the relevant results with metadata
