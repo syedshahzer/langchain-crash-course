@@ -12,7 +12,7 @@ load_dotenv()
 # Define the persistent directory
 current_dir = os.path.dirname(os.path.abspath(__file__))
 db_dir = os.path.join(current_dir, "db")
-persistent_directory = os.path.join(db_dir, "chroma_db_firecrawl")
+persistent_directory = os.path.join(db_dir, "chroma_db_firecrawl_wiki")
 
 
 def create_vector_store():
@@ -25,7 +25,7 @@ def create_vector_store():
     # Step 1: Crawl the website using FireCrawlLoader
     print("Begin crawling the website...")
     loader = FireCrawlLoader(
-        api_key=api_key, url="https://apple.com", mode="scrape")
+        api_key=api_key, url="https://en.wikipedia.org/wiki/Reddit", mode="scrape")
     docs = loader.load()
     print("Finished crawling the website.")
 
@@ -89,7 +89,7 @@ def query_vector_store(query):
 
 
 # Define the user's question
-query = "Apple Intelligence?"
+query = "founder"
 
 # Query the vector store with the user's question
 query_vector_store(query)

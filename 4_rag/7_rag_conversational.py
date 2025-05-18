@@ -14,7 +14,7 @@ load_dotenv()
 
 # Define the persistent directory
 current_dir = os.path.dirname(os.path.abspath(__file__))
-persistent_directory = os.path.join(current_dir, "db", "chroma_db_with_metadata")
+persistent_directory = os.path.join(current_dir, "db", "chroma_db_firecrawl_wiki")
 
 # Define the embedding model
 embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
