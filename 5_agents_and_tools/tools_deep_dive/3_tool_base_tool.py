@@ -9,7 +9,7 @@ from langchain import hub
 from langchain.agents import AgentExecutor, create_tool_calling_agent
 from langchain.pydantic_v1 import BaseModel, Field
 from langchain_core.tools import BaseTool
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 
 load_dotenv()
@@ -69,8 +69,8 @@ tools = [
     MultiplyNumbersTool(),
 ]
 
-# Initialize a ChatOpenAI model
-llm = ChatOpenAI(model="gpt-4o")
+# Initialize a ChatGoogleGenerativeAI model
+llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash")
 
 # Pull the prompt template from the hub
 prompt = hub.pull("hwchase17/openai-tools-agent")
@@ -92,7 +92,7 @@ agent_executor = AgentExecutor.from_agent_and_tools(
 
 # Test the agent with sample queries
 response = agent_executor.invoke({"input": "Search for Apple Intelligence"})
-print("Response for 'Search for LangChain updates':", response)
+print("Response for 'Search for Apple Intelligence':", response)
 
 response = agent_executor.invoke({"input": "Multiply 10 and 20"})
 print("Response for 'Multiply 10 and 20':", response)

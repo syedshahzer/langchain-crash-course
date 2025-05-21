@@ -5,7 +5,7 @@ from langchain.agents import (
     create_react_agent,
 )
 from langchain_core.tools import Tool
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 # Load environment variables from .env file
 load_dotenv()
@@ -35,9 +35,9 @@ tools = [
 # https://smith.langchain.com/hub/hwchase17/react
 prompt = hub.pull("hwchase17/react")
 
-# Initialize a ChatOpenAI model
-llm = ChatOpenAI(
-    model="gpt-4o", temperature=0
+# Initialize a ChatGoogleGenerativeAI model
+llm = ChatGoogleGenerativeAI(
+    model="gemini-2.0-flash", temperature=0
 )
 
 # Create the ReAct agent using the create_react_agent function

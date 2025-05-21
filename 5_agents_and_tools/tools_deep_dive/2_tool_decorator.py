@@ -5,7 +5,7 @@ from langchain import hub
 from langchain.agents import AgentExecutor, create_tool_calling_agent
 from langchain.pydantic_v1 import BaseModel, Field
 from langchain.tools import tool
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 
 # Simple Tool with one parameter without args_schema
@@ -19,13 +19,13 @@ def greet_user(name: str) -> str:
 
 # Pydantic models for tool arguments
 # Define a Pydantic model to specify the input schema for tools that need more structured input.
-class ReverseStringArgs(BaseModel):
-    text: str = Field(description="Text to be reversed")
+# class ReverseStringArgs(BaseModel):
+#     text: str = Field(description="Text to be reversed")
 
 
 # Tool with One Parameter using args_schema
 # Use the args_schema parameter to specify the input schema using a Pydantic model.
-@tool(args_schema=ReverseStringArgs)
+@tool()
 def reverse_string(text: str) -> str:
     """Reverses the given string."""
     return text[::-1]
@@ -55,8 +55,8 @@ tools = [
     concatenate_strings,  # Tool with two parameters using args_schema
 ]
 
-# Initialize a ChatOpenAI model
-llm = ChatOpenAI(model="gpt-4o")
+# Initialize a ChatGoogleGenerativeAI model
+llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash")
 
 # Pull the prompt template from the hub
 prompt = hub.pull("hwchase17/openai-tools-agent")
